@@ -1,48 +1,91 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using VariacaoAtivo.Service.Interfaces;
+using VariacaoAtivo.VO;
 
 namespace VariacaoAtivo.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class VariacaoAtivoController : ControllerBase
     {
-        // GET: api/<VariacaoAtivoController>
+        private IBuscaAtivoService _buscaAtivoService;
+        private IQuotacaoService _quotacaoService;
+        private readonly AppSettings _appSettings;
+
+        public VariacaoAtivoController(IBuscaAtivoService buscaAtivoService, IQuotacaoService quotacaoService, IOptions<AppSettings> appSettings)
+        {
+            _buscaAtivoService = buscaAtivoService;
+            _quotacaoService = quotacaoService;
+            _appSettings = appSettings.Value;
+        }
+
+        /// <summary>
+        /// Consultar Variações do Ativo dos últimos 30 dias.
+        /// </summary>
+        /// <returns>Lista de Ativos.</returns>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            ResponseMessageVO response = new ResponseMessageVO();
+
+            try
+            {
+                IList<QuotacaoVO> quotacoes = await _quotacaoService.GetQuotacoes();
+                CultureInfo enUS = new CultureInfo("en-US");
+                return Ok(quotacoes.Select(q =>
+                {
+                    return new
+                    {
+                        Data = q.Data.ToString("MM/dd/yyyy", enUS),
+                        Valor = q.Valor.ToString("C", enUS),
+                        VariacaoD1 = q.VariacaoD1 == 0 ? "-" : $"{q.VariacaoD1.ToString("#,0.00", enUS)} %",
+                        VariacaoPrimeiraData = q.VariacaoPrimeiraData == 0 ? "-" : $"{q.VariacaoPrimeiraData.ToString("#,0.00", enUS)} %"
+                    };
+                }).ToList());
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.Success = false;
+                return BadRequest(response);
+            }
         }
 
-        // GET api/<VariacaoAtivoController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        /// <summary>
+        /// Atualizar Lista de Variações do Ativo.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("update")]
+        public async Task<ResponseMessageVO> Post()
         {
-            return "value";
-        }
+            ResponseMessageVO response = new ResponseMessageVO();
+            
+            string ativo = _appSettings.Ativo;
+            long unixPeriodoIni = new DateTimeOffset(DateTime.Now.AddDays(-30)).ToUnixTimeSeconds();
+            long unixPeriodoFin = new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds();
 
-        // POST api/<VariacaoAtivoController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-            //https://query2.finance.yahoo.com/v8/finance/chart/BTC-USD?interval=1d&period1=1653620400&period2=1679024934
-        }
+            try
+            {
+                IList<QuotacaoVO> quotacoes = await _buscaAtivoService.GetDadosAtivoAsync(ativo, unixPeriodoIni, unixPeriodoFin);
+                await _quotacaoService.DeleteQuotacoes();
+                await _quotacaoService.SaveQuotacoes(quotacoes);
 
-        // PUT api/<VariacaoAtivoController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+                response.Message = "Quotações atualizadas com sucesso.";
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.Success = false;
+            }
 
-        // DELETE api/<VariacaoAtivoController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return response;
         }
     }
 }
