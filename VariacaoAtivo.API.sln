@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VariacaoAtivo.VO", "Variaca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VariacaoAtivo.DAL", "VariacaoAtivo.DAL\VariacaoAtivo.DAL.csproj", "{4A960CD1-EB05-465E-997E-C1E02E51B158}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VariacaoAtivo.Service", "VariacaoAtivo.Service\VariacaoAtivo.Service.csproj", "{E4FF6C79-71E9-43B1-9672-7B9DFC48796E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VariacaoAtivo.Service", "VariacaoAtivo.Service\VariacaoAtivo.Service.csproj", "{E4FF6C79-71E9-43B1-9672-7B9DFC48796E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VariacaoAtivo.Tests", "VariacaoAtivo.Tests\VariacaoAtivo.Tests.csproj", "{E7009595-C7F2-494F-8EE5-0119886CC9AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{E4FF6C79-71E9-43B1-9672-7B9DFC48796E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4FF6C79-71E9-43B1-9672-7B9DFC48796E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4FF6C79-71E9-43B1-9672-7B9DFC48796E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7009595-C7F2-494F-8EE5-0119886CC9AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7009595-C7F2-494F-8EE5-0119886CC9AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7009595-C7F2-494F-8EE5-0119886CC9AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7009595-C7F2-494F-8EE5-0119886CC9AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
