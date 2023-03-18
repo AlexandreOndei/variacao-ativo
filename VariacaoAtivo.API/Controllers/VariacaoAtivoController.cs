@@ -11,6 +11,9 @@ using VariacaoAtivo.VO;
 
 namespace VariacaoAtivo.API.Controllers
 {
+    /// <summary>
+    /// Controller Variação Ativo.
+    /// </summary>
     [Route("[controller]")]
     [ApiController]
     public class VariacaoAtivoController : ControllerBase
@@ -19,6 +22,12 @@ namespace VariacaoAtivo.API.Controllers
         private IQuotacaoService _quotacaoService;
         private readonly AppSettings _appSettings;
 
+        /// <summary>
+        /// Construtor da classe VariacaoAtivoController.
+        /// </summary>
+        /// <param name="buscaAtivoService"></param>
+        /// <param name="quotacaoService"></param>
+        /// <param name="appSettings"></param>
         public VariacaoAtivoController(IBuscaAtivoService buscaAtivoService, IQuotacaoService quotacaoService, IOptions<AppSettings> appSettings)
         {
             _buscaAtivoService = buscaAtivoService;

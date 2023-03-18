@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VariacaoAtivo.API</name>
+    </assembly>
+    <members>
+        <member name="T:VariacaoAtivo.API.Controllers.VariacaoAtivoController">
+            <summary>
+            Controller Variação Ativo.
+            </summary>
+        </member>
+        <member name="M:VariacaoAtivo.API.Controllers.VariacaoAtivoController.#ctor(VariacaoAtivo.Service.Interfaces.IBuscaAtivoService,VariacaoAtivo.Service.Interfaces.IQuotacaoService,Microsoft.Extensions.Options.IOptions{VariacaoAtivo.API.AppSettings})">
+            <summary>
+            Construtor da classe VariacaoAtivoController.
+            </summary>
+            <param name="buscaAtivoService"></param>
+            <param name="quotacaoService"></param>
+            <param name="appSettings"></param>
+        </member>
+        <member name="M:VariacaoAtivo.API.Controllers.VariacaoAtivoController.Get">
+            <summary>
+            Consultar Variações do Ativo dos últimos 30 dias.
+            </summary>
+            <returns>Lista de Ativos.</returns>
+        </member>
+        <member name="M:VariacaoAtivo.API.Controllers.VariacaoAtivoController.Post">
+            <summary>
+            Atualizar Lista de Variações do Ativo.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:VariacaoAtivo.API.Startup">
+            <summary>
+            Startup class.
+            </summary>
+        </member>
+        <member name="M:VariacaoAtivo.API.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Startup constructor.
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="P:VariacaoAtivo.API.Startup.Configuration">
+            <summary>
+            Configuration properties.
+            </summary>
+        </member>
+        <member name="M:VariacaoAtivo.API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:VariacaoAtivo.API.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+    </members>
+</doc>
